@@ -29,6 +29,9 @@ class HomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<HomePage> {
 
+  var userInput = '';
+  var userAnswer = '';
+
   final List<String> buttons =
   [
     'C','<=','%','/',
@@ -43,26 +46,29 @@ class _MyHomePageState extends State<HomePage> {
 
     return Scaffold(
 
-      backgroundColor: Colors.white, //背景色(最底色)
+      backgroundColor: Colors.grey, //背景色(最底色)
       body: Column(
         children: <Widget>[
           Expanded(
+            flex: 2, //藉由調整此，來控制上下比例
             child: Container(),
           ),
           Expanded(
-            flex: 2,
+            flex: 4,
             child: Container(
               //color:Colors.deepPurple,), //在背景色上層一層，位於計算輸入按鈕處
               child: GridView.builder(
                 itemCount: buttons.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4), //每排的數量
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4 ,//每排的數量
+                ),
                 itemBuilder: (BuildContext Context, int index){
 
                   if((index - 3) < 0) { // -3 <0 指前三個
 
                     return MyButton(
                       buttonText: buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
-                      color: Colors.grey,
+                      color: Colors.black26,
                       textColor: Colors.white,
                     );
 
