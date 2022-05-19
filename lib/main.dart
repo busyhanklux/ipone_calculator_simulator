@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'buttons.dart';
 
 void main() {
@@ -32,11 +31,11 @@ class _MyHomePageState extends State<HomePage> {
 
   final List<String> buttons =
   [
-    'C','DEL','%','/',
+    'C','<=','%','/',
     '9','8','7','x',
     '6','5','4','-',
     '3','2','1','+',
-    '0','.','ANS','=',
+    '+/-','0','.','='
   ];
 
   @override
@@ -44,7 +43,7 @@ class _MyHomePageState extends State<HomePage> {
 
     return Scaffold(
 
-      backgroundColor: Colors.deepPurple[100], //背景色(最底色)
+      backgroundColor: Colors.white, //背景色(最底色)
       body: Column(
         children: <Widget>[
           Expanded(
@@ -54,17 +53,41 @@ class _MyHomePageState extends State<HomePage> {
             flex: 2,
             child: Container(
               //color:Colors.deepPurple,), //在背景色上層一層，位於計算輸入按鈕處
+              child: GridView.builder(
+                itemCount: buttons.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4), //每排的數量
+                itemBuilder: (BuildContext Context, int index){
 
-              child: Center(child: MyButton(
-                color: Colors.deepPurple,
-                textColor:Colors.white ,
-                buttonText: '0',
-                ),
+                  if((index - 3) < 0) { // -3 <0 指前三個
+
+                    return MyButton(
+                      buttonText: buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
+                      color: Colors.grey,
+                      textColor: Colors.white,
+                    );
+
+                  }else{
+                    return MyButton(
+                      buttonText: buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
+                      color: isOperator(buttons[index])?  Colors.orange : Colors.black , //是否為 isOperator 之文字? T為左，F為右
+                      textColor: Colors.white,
+                    );
+
+                  }
+                })
+              //child: Center(child: MyButton( color: Colors.deepPurple, textColor:Colors.white , buttonText: '0',),
               ),
             ),
-          ),
         ],
       ),
     );
+  }
+
+  bool isOperator(String x)
+  {
+    if(x == '/' || x == 'x' || x == '-' || x == '+' || x == '='){
+      return true;
+    }
+    return false;
   }
 }
