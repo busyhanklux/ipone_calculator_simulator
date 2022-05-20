@@ -58,7 +58,7 @@ class _MyHomePageState extends State<HomePage> {
                   SizedBox(height: 50,),
                   Container(
                       padding: EdgeInsets.all(20),
-                      alignment: Alignment.centerLeft,
+                      alignment: Alignment.centerRight,
                       child: Text(userInput,style: TextStyle(fontSize: 50),),
                   ),
                   Container(
@@ -84,14 +84,48 @@ class _MyHomePageState extends State<HomePage> {
 
                   if((index - 3) < 0) { // -3 <0 指前三個
 
-                    return MyButton(
-                      buttonText: buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
-                      color: Colors.black26,
-                      textColor: Colors.white,
-                    );
+                    if(index == 0){ //C
 
+                      return MyButton(
+                        buttonTapped: (){
+                          setState(() {
+                            userInput = '';
+                          });
+                        },
+                        buttonText: buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
+                        color: Colors.black26,
+                        textColor: Colors.white,
+                      );
+                    }
+                    else if(index == 1)
+                    {
+                      return MyButton( //<=
+                        buttonTapped: (){
+                          setState(() {
+                            userInput = userInput.substring(0,userInput.length-1);
+                          });
+                        },
+                        buttonText: buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
+                        color: Colors.black26,
+                        textColor: Colors.white,
+                      );
+                    }
+                    else
+                    {
+                      return MyButton( //%
+
+                        buttonText: buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
+                        color: Colors.black26,
+                        textColor: Colors.white,
+                      );
+                    }
                   }else{
                     return MyButton(
+                      buttonTapped: (){
+                        setState(() {
+                          userInput += buttons[index];
+                        });
+                      },
                       buttonText: buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
                       color: isOperator(buttons[index])?  Colors.orange : Colors.black , //是否為 isOperator 之文字? T為左，F為右
                       textColor: Colors.white,
