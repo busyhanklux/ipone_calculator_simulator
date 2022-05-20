@@ -29,8 +29,8 @@ class HomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<HomePage> {
 
-  var userInput = '';
-  var userAnswer = '';
+  var userInput = 'In';
+  var userAnswer = 'An';
 
   final List<String> buttons =
   [
@@ -51,8 +51,26 @@ class _MyHomePageState extends State<HomePage> {
         children: <Widget>[
           Expanded(
             flex: 2, //藉由調整此，來控制上下比例
-            child: Container(),
+            child: Container(
+              child: Column(
+                mainAxisAlignment:MainAxisAlignment.spaceEvenly, //均分空間
+                children: <Widget>[
+                  SizedBox(height: 50,),
+                  Container(
+                      padding: EdgeInsets.all(20),
+                      alignment: Alignment.centerLeft,
+                      child: Text(userInput,style: TextStyle(fontSize: 50),),
+                  ),
+                  Container(
+                      padding: EdgeInsets.all(20),
+                      alignment: Alignment.centerRight,
+                      child: Text(userAnswer,style: TextStyle(fontSize: 40),),
+                  ),
+                ],
+              ),
+            ),
           ),
+
           Expanded(
             flex: 4,
             child: Container(
