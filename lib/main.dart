@@ -232,17 +232,72 @@ class _MyHomePageState extends State<HomePage> {
     userAnswer = eval.toStringAsFixed(8);
 
 
-    if (userAnswer == 'Infinity') {
+    if (userAnswer == 'Infinity' || userAnswer == 'NaN') {
       userAnswer = 'Error';
     }
 
-    //10億
     if (userAnswer != 'Error') {
+
+      //10億
       if (double.parse(userAnswer) >= 1000000000) {
 
-        userAnswer = (double.parse(userAnswer) / 1000000000).toStringAsFixed(8);
-        userAnswer = userAnswer + 'e9';
+        var TempuserAnswer = (double.parse(userAnswer) / 1000000000).toStringAsFixed(8);
 
+
+        if (TempuserAnswer.substring(TempuserAnswer.length - 1, TempuserAnswer.length) ==
+            '0') //處理後，如果小數點後第八位是0
+            {
+          if (TempuserAnswer.substring(
+              TempuserAnswer.length - 2, TempuserAnswer.length - 1) ==
+              '0') //處理後，如果小數點後第七位是0
+              {
+            if (TempuserAnswer.substring(
+                TempuserAnswer.length - 3, TempuserAnswer.length - 2) ==
+                '0') //處理後，如果小數點後第六位是0
+                {
+              if (TempuserAnswer.substring(
+                  TempuserAnswer.length - 4, TempuserAnswer.length - 3) ==
+                  '0') //處理後，如果小數點後第五位是0
+                  {
+                if (TempuserAnswer.substring(
+                    TempuserAnswer.length - 5, TempuserAnswer.length - 4) ==
+                    '0') //處理後，如果小數點後第四位是0
+                    {
+                  if (TempuserAnswer.substring(
+                      TempuserAnswer.length - 6, TempuserAnswer.length - 5) ==
+                      '0') //處理後，如果小數點後第三位是0
+                      {
+                    if (TempuserAnswer.substring(
+                        TempuserAnswer.length - 7, TempuserAnswer.length - 6) ==
+                        '0') //處理後，如果小數點後第二位是0
+                        {
+                      if (TempuserAnswer.substring(
+                          TempuserAnswer.length - 8, TempuserAnswer.length - 7) ==
+                          '0') //處理後，如果小數點後第一位是0
+                          {
+                        userAnswer = double.parse(TempuserAnswer).toStringAsFixed(0) + 'e9';
+                      } else {
+                        userAnswer = double.parse(TempuserAnswer).toStringAsFixed(1) + 'e9';
+                      }
+                    } else {
+                      userAnswer = double.parse(TempuserAnswer).toStringAsFixed(2) + 'e9';
+                    }
+                  } else {
+                    userAnswer = double.parse(TempuserAnswer).toStringAsFixed(3) + 'e9';
+                  }
+                } else {
+                  userAnswer = double.parse(TempuserAnswer).toStringAsFixed(4) + 'e9';
+                }
+              } else {
+                userAnswer = double.parse(TempuserAnswer).toStringAsFixed(5) + 'e9';
+              }
+            } else {
+              userAnswer = double.parse(TempuserAnswer).toStringAsFixed(6) + 'e9';
+            }
+          } else {
+            userAnswer = double.parse(TempuserAnswer).toStringAsFixed(7) + 'e9';
+          }
+        }
       }
       else
       {
@@ -303,7 +358,6 @@ class _MyHomePageState extends State<HomePage> {
       }
     }
 
-    //userAnswer += large_number;
     userInput = '';
   }
 }
