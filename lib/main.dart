@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
 import 'buttons.dart';
+import 'package:math_expressions/math_expressions.dart'; //數學表達式
+import 'package:responsive_framework/responsive_framework.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      builder: (context, child) => ResponsiveWrapper.builder(child,
+          maxWidth: 480,
+          minWidth: 165,
+          defaultName: MOBILE,
+          defaultScale: true,
+          breakpoints: [
+            ResponsiveBreakpoint.resize(360), //解決
+            ResponsiveBreakpoint.resize(600, name: MOBILE),
+            ResponsiveBreakpoint.autoScale(120, name: TABLET),
+            ResponsiveBreakpoint.autoScale(120, name: DESKTOP),
+          ],
+          background: Container(color: Color(0xFFF5F5F5))),
+      initialRoute: "/",
       debugShowCheckedModeBanner: false,
       home: HomePage(title: '仿 iphone 計算機'),
     );
@@ -18,7 +32,6 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-
   //title
   const HomePage({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -28,24 +41,35 @@ class HomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<HomePage> {
+  var userInput = '';
+  var userAnswer = '';
 
-  var userInput = 'In';
-  var userAnswer = 'An';
-
-  final List<String> buttons =
-  [
-    'C','<=','%','/',
-    '9','8','7','x',
-    '6','5','4','-',
-    '3','2','1','+',
-    '+/-','0','.','='
+  final List<String> buttons = [
+    'C',
+    '<=',
+    '%',
+    '/',
+    '9',
+    '8',
+    '7',
+    'x',
+    '6',
+    '5',
+    '4',
+    '-',
+    '3',
+    '2',
+    '1',
+    '+',
+    '00',
+    '0',
+    '.',
+    '='
   ];
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       backgroundColor: Colors.grey, //背景色(最底色)
       body: Column(
         children: <Widget>[
@@ -53,99 +77,233 @@ class _MyHomePageState extends State<HomePage> {
             flex: 2, //藉由調整此，來控制上下比例
             child: Container(
               child: Column(
-                mainAxisAlignment:MainAxisAlignment.spaceEvenly, //均分空間
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly, //均分空間
                 children: <Widget>[
-                  SizedBox(height: 50,),
-                  Container(
-                      padding: EdgeInsets.all(20),
-                      alignment: Alignment.centerRight,
-                      child: Text(userInput,style: TextStyle(fontSize: 50),),
+                  SizedBox(
+                    height: 50,
                   ),
                   Container(
-                      padding: EdgeInsets.all(20),
-                      alignment: Alignment.centerRight,
-                      child: Text(userAnswer,style: TextStyle(fontSize: 40),),
+                    padding: EdgeInsets.all(20),
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      userInput,
+                      style: TextStyle(fontSize: 50),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      userAnswer,
+                      style: TextStyle(fontSize: 40),
+                    ),
                   ),
                 ],
               ),
             ),
           ),
-
           Expanded(
             flex: 4,
             child: Container(
               //color:Colors.deepPurple,), //在背景色上層一層，位於計算輸入按鈕處
               child: GridView.builder(
-                itemCount: buttons.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4 ,//每排的數量
-                ),
-                itemBuilder: (BuildContext Context, int index){
+                  itemCount: buttons.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4, //每排的數量
+                  ),
+                  itemBuilder: (BuildContext Context, int index) {
+                    if ((index - 3) < 0) {
+                      // -3 <0 指前三個
 
-                  if((index - 3) < 0) { // -3 <0 指前三個
+                      if (index == 0) {
+                        //C
 
-                    if(index == 0){ //C
-
+                        return MyButton(
+                          buttonTapped: () {
+                            setState(() {
+                              userInput = '';
+                              userAnswer = '0';
+                            });
+                          },
+                          buttonText:
+                              buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
+                          color: Colors.black26,
+                          textColor: Colors.white,
+                        );
+                      } else if (index == 1) {
+                        return MyButton(
+                          //<=
+                          buttonTapped: () {
+                            setState(() {
+                              userInput =
+                                  userInput.substring(0, userInput.length - 1);
+                            });
+                          },
+                          buttonText:
+                              buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
+                          color: Colors.black26,
+                          textColor: Colors.white,
+                        );
+                      } else {
+                        return MyButton(
+                          //%
+                          buttonTapped: () {
+                            setState(() {
+                              userInput += buttons[index];
+                            });
+                          },
+                          buttonText:
+                              buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
+                          color: Colors.black26,
+                          textColor: Colors.white,
+                        );
+                      }
+                    } else if (index == (buttons.length - 1)) //等號
+                    {
                       return MyButton(
-                        buttonTapped: (){
+                        buttonTapped: () {
                           setState(() {
-                            userInput = '';
+                            equalPressed();
                           });
                         },
-                        buttonText: buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
-                        color: Colors.black26,
+                        buttonText:
+                            buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
+                        color: isOperator(buttons[index])
+                            ? Colors.orange
+                            : Colors.black, //是否為 isOperator 之文字? T為左，F為右
                         textColor: Colors.white,
                       );
-                    }
-                    else if(index == 1)
+                    } else if (index == (buttons.length - 4)) // 00
                     {
-                      return MyButton( //<=
-                        buttonTapped: (){
+                      return MyButton(
+                        buttonTapped: () {
                           setState(() {
-                            userInput = userInput.substring(0,userInput.length-1);
+                            userInput += buttons[index];
                           });
                         },
-                        buttonText: buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
-                        color: Colors.black26,
+                        buttonText:
+                            buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
+                        color: isOperator(buttons[index])
+                            ? Colors.orange
+                            : Colors.black, //是否為 isOperator 之文字? T為左，F為右
+                        textColor: Colors.white,
+                      );
+                    } else {
+                      return MyButton(
+                        buttonTapped: () {
+                          setState(() {
+                            userInput += buttons[index];
+                          });
+                        },
+                        buttonText:
+                            buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
+                        color: isOperator(buttons[index])
+                            ? Colors.orange
+                            : Colors.black, //是否為 isOperator 之文字? T為左，F為右
                         textColor: Colors.white,
                       );
                     }
-                    else
-                    {
-                      return MyButton( //%
-
-                        buttonText: buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
-                        color: Colors.black26,
-                        textColor: Colors.white,
-                      );
-                    }
-                  }else{
-                    return MyButton(
-                      buttonTapped: (){
-                        setState(() {
-                          userInput += buttons[index];
-                        });
-                      },
-                      buttonText: buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
-                      color: isOperator(buttons[index])?  Colors.orange : Colors.black , //是否為 isOperator 之文字? T為左，F為右
-                      textColor: Colors.white,
-                    );
-
-                  }
-                })
+                  }),
               //child: Center(child: MyButton( color: Colors.deepPurple, textColor:Colors.white , buttonText: '0',),
-              ),
             ),
+          ),
         ],
       ),
     );
   }
 
-  bool isOperator(String x)
-  {
-    if(x == '/' || x == 'x' || x == '-' || x == '+' || x == '='){
+  bool isOperator(String x) {
+    if (x == '/' || x == 'x' || x == '-' || x == '+' || x == '=') {
       return true;
     }
     return false;
+  }
+
+  void equalPressed() {
+    String finalInput = userInput;
+    finalInput = finalInput.replaceAll('x', '*'); //替代符號(由左邊的x換成右邊的*)
+    finalInput = finalInput.replaceAll('%', '*0.01');
+
+    Parser p = Parser();
+    Expression exp = p.parse(finalInput);
+    ContextModel cm = ContextModel();
+    double eval = exp.evaluate(EvaluationType.REAL, cm);
+
+    userAnswer = eval.toStringAsFixed(8);
+
+
+    if (userAnswer == 'Infinity') {
+      userAnswer = 'Error';
+    }
+
+    //10億
+    if (userAnswer != 'Error') {
+      if (double.parse(userAnswer) >= 1000000000) {
+
+        userAnswer = (double.parse(userAnswer) / 1000000000).toStringAsFixed(8);
+        userAnswer = userAnswer + 'e9';
+
+      }
+      else
+      {
+        if (userAnswer.substring(userAnswer.length - 1, userAnswer.length) ==
+            '0') //處理後，如果小數點後第八位是0
+            {
+          if (userAnswer.substring(
+              userAnswer.length - 2, userAnswer.length - 1) ==
+              '0') //處理後，如果小數點後第七位是0
+              {
+            if (userAnswer.substring(
+                userAnswer.length - 3, userAnswer.length - 2) ==
+                '0') //處理後，如果小數點後第六位是0
+                {
+              if (userAnswer.substring(
+                  userAnswer.length - 4, userAnswer.length - 3) ==
+                  '0') //處理後，如果小數點後第五位是0
+                  {
+                if (userAnswer.substring(
+                    userAnswer.length - 5, userAnswer.length - 4) ==
+                    '0') //處理後，如果小數點後第四位是0
+                    {
+                  if (userAnswer.substring(
+                      userAnswer.length - 6, userAnswer.length - 5) ==
+                      '0') //處理後，如果小數點後第三位是0
+                      {
+                    if (userAnswer.substring(
+                        userAnswer.length - 7, userAnswer.length - 6) ==
+                        '0') //處理後，如果小數點後第二位是0
+                        {
+                      if (userAnswer.substring(
+                          userAnswer.length - 8, userAnswer.length - 7) ==
+                          '0') //處理後，如果小數點後第一位是0
+                          {
+                        userAnswer = eval.toStringAsFixed(0);
+                      } else {
+                        userAnswer = eval.toStringAsFixed(1);
+                      }
+                    } else {
+                      userAnswer = eval.toStringAsFixed(2);
+                    }
+                  } else {
+                    userAnswer = eval.toStringAsFixed(3);
+                  }
+                } else {
+                  userAnswer = eval.toStringAsFixed(4);
+                }
+              } else {
+                userAnswer = eval.toStringAsFixed(5);
+              }
+            } else {
+              userAnswer = eval.toStringAsFixed(6);
+            }
+          } else {
+            userAnswer = eval.toStringAsFixed(7);
+          }
+        }
+      }
+    }
+
+    //userAnswer += large_number;
+    userInput = '';
   }
 }
