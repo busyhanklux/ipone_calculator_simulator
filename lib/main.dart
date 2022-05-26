@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'buttons.dart';
-import 'package:math_expressions/math_expressions.dart'; //數學表達式
+import 'package:math_expressions/math_expressions.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 void main() {
   runApp(MyApp());
@@ -42,35 +43,20 @@ class HomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<HomePage> {
   var userInput = '';
-  var userAnswer = '';
+  var userAnswer = '0';
 
   final List<String> buttons = [
-    'C',
-    '<=',
-    '%',
-    '/',
-    '9',
-    '8',
-    '7',
-    'x',
-    '6',
-    '5',
-    '4',
-    '-',
-    '3',
-    '2',
-    '1',
-    '+',
-    '00',
-    '0',
-    '.',
-    '='
+    'C', '<=', '%', '/',
+    '9', '8', '7', 'x',
+    '6', '5', '4', '-',
+    '3', '2', '1', '+',
+    '00', '0', '.', '='
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey, //背景色(最底色)
+      backgroundColor: Colors.black, //背景色(最底色)
       body: Column(
         children: <Widget>[
           Expanded(
@@ -79,24 +65,16 @@ class _MyHomePageState extends State<HomePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly, //均分空間
                 children: <Widget>[
-                  SizedBox(
-                    height: 50,
+                  SizedBox(height: 50,),
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    alignment: Alignment.centerRight,
+                    child: Text(userInput, style: TextStyle(fontSize: 40 , color: Colors.white),),
                   ),
                   Container(
                     padding: EdgeInsets.all(20),
                     alignment: Alignment.centerRight,
-                    child: Text(
-                      userInput,
-                      style: TextStyle(fontSize: 50),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(20),
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      userAnswer,
-                      style: TextStyle(fontSize: 40),
-                    ),
+                    child: Text(userAnswer, style: TextStyle(fontSize: 50 , color: Colors.white),),
                   ),
                 ],
               ),
@@ -108,16 +86,12 @@ class _MyHomePageState extends State<HomePage> {
               //color:Colors.deepPurple,), //在背景色上層一層，位於計算輸入按鈕處
               child: GridView.builder(
                   itemCount: buttons.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4, //每排的數量
-                  ),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4, ), //每排的數量
                   itemBuilder: (BuildContext Context, int index) {
                     if ((index - 3) < 0) {
                       // -3 <0 指前三個
 
-                      if (index == 0) {
-                        //C
-
+                      if (index == 0) { //C
                         return MyButton(
                           buttonTapped: () {
                             setState(() {
@@ -125,9 +99,8 @@ class _MyHomePageState extends State<HomePage> {
                               userAnswer = '0';
                             });
                           },
-                          buttonText:
-                              buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
-                          color: Colors.black26,
+                          buttonText: buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
+                          color: Colors.grey,
                           textColor: Colors.white,
                         );
                       } else if (index == 1) {
@@ -135,13 +108,11 @@ class _MyHomePageState extends State<HomePage> {
                           //<=
                           buttonTapped: () {
                             setState(() {
-                              userInput =
-                                  userInput.substring(0, userInput.length - 1);
+                              userInput = userInput.substring(0, userInput.length - 1);
                             });
                           },
-                          buttonText:
-                              buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
-                          color: Colors.black26,
+                          buttonText: buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
+                          color: Colors.grey,
                           textColor: Colors.white,
                         );
                       } else {
@@ -152,13 +123,13 @@ class _MyHomePageState extends State<HomePage> {
                               userInput += buttons[index];
                             });
                           },
-                          buttonText:
-                              buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
-                          color: Colors.black26,
+                          buttonText: buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
+                          color: Colors.grey,
                           textColor: Colors.white,
                         );
                       }
-                    } else if (index == (buttons.length - 1)) //等號
+                    }
+                    else if (index == (buttons.length - 1)) //等號
                     {
                       return MyButton(
                         buttonTapped: () {
@@ -166,14 +137,12 @@ class _MyHomePageState extends State<HomePage> {
                             equalPressed();
                           });
                         },
-                        buttonText:
-                            buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
-                        color: isOperator(buttons[index])
-                            ? Colors.orange
-                            : Colors.black, //是否為 isOperator 之文字? T為左，F為右
+                        buttonText: buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
+                        color: Colors.orange,
                         textColor: Colors.white,
                       );
-                    } else if (index == (buttons.length - 4)) // 00
+                    }
+                    else if (index == (buttons.length - 4)) // 00
                     {
                       return MyButton(
                         buttonTapped: () {
@@ -181,11 +150,8 @@ class _MyHomePageState extends State<HomePage> {
                             userInput += buttons[index];
                           });
                         },
-                        buttonText:
-                            buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
-                        color: isOperator(buttons[index])
-                            ? Colors.orange
-                            : Colors.black, //是否為 isOperator 之文字? T為左，F為右
+                        buttonText: buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
+                        color: Colors.white24,
                         textColor: Colors.white,
                       );
                     } else {
@@ -195,11 +161,8 @@ class _MyHomePageState extends State<HomePage> {
                             userInput += buttons[index];
                           });
                         },
-                        buttonText:
-                            buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
-                        color: isOperator(buttons[index])
-                            ? Colors.orange
-                            : Colors.black, //是否為 isOperator 之文字? T為左，F為右
+                        buttonText: buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
+                        color: isOperator(buttons[index]) ? Colors.orange : Colors.white24, //是否為 isOperator 之文字? T為左，F為右
                         textColor: Colors.white,
                       );
                     }
@@ -242,7 +205,6 @@ class _MyHomePageState extends State<HomePage> {
       if (double.parse(userAnswer) >= 1000000000) {
 
         var TempuserAnswer = (double.parse(userAnswer) / 1000000000).toStringAsFixed(8);
-
 
         if (TempuserAnswer.substring(TempuserAnswer.length - 1, TempuserAnswer.length) ==
             '0') //處理後，如果小數點後第八位是0
