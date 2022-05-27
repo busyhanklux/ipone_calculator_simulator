@@ -43,6 +43,8 @@ class HomePage extends StatefulWidget {
 class _MyHomePageState extends State<HomePage> {
   var userInput = '';
   var userAnswer = '0';
+  var Isafterequal = 0; //按下等號，使其能夠連續計算
+  var Isafternumber = '';
 
   final List<String> buttons = [
     'C', '<=', '%', '/',
@@ -96,6 +98,8 @@ class _MyHomePageState extends State<HomePage> {
                             setState(() {
                               userInput = '';
                               userAnswer = '0';
+                              Isafterequal = 0;
+                              Isafternumber = '';
                             });
                           },
                           buttonText: buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
@@ -153,7 +157,97 @@ class _MyHomePageState extends State<HomePage> {
                         color: Colors.white24,
                         textColor: Colors.white,
                       );
-                    } else {
+                    }
+                    else if (index == 15) // +
+                    {
+                      return MyButton(
+                        buttonTapped: () {
+                          setState(() {
+                            if(Isafterequal == 1)
+                              {
+                                userInput = Isafternumber + buttons[index];
+                                Isafterequal = 0;
+                                Isafternumber = '';
+                              }
+                            else
+                            {
+                              userInput += buttons[index];
+                            }
+                          });
+                        },
+                        buttonText: buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
+                        color: Colors.orange,
+                        textColor: Colors.white,
+                      );
+                    }
+                    else if (index == 11) // -
+                        {
+                      return MyButton(
+                        buttonTapped: () {
+                          setState(() {
+                            if(Isafterequal == 1)
+                            {
+                              userInput = Isafternumber + buttons[index];
+                              Isafterequal = 0;
+                              Isafternumber = '';
+                            }
+                            else
+                            {
+                              userInput += buttons[index];
+                            }
+                          });
+                        },
+                        buttonText: buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
+                        color: Colors.orange,
+                        textColor: Colors.white,
+                      );
+                    }
+                    else if (index == 7) // x
+                        {
+                      return MyButton(
+                        buttonTapped: () {
+                          setState(() {
+                            if(Isafterequal == 1)
+                            {
+                              userInput = Isafternumber + buttons[index];
+                              Isafterequal = 0;
+                              Isafternumber = '';
+                            }
+                            else
+                            {
+                              userInput += buttons[index];
+                            }
+                          });
+                        },
+                        buttonText: buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
+                        color: Colors.orange,
+                        textColor: Colors.white,
+                      );
+                    }
+                    else if (index == 3) // /
+                        {
+                      return MyButton(
+                        buttonTapped: () {
+                          setState(() {
+                            if(Isafterequal == 1)
+                            {
+                              userInput = Isafternumber + buttons[index];
+                              Isafterequal = 0;
+                              Isafternumber = '';
+                            }
+                            else
+                            {
+                              userInput += buttons[index];
+                            }
+                          });
+                        },
+                        buttonText: buttons[index], //按照有多少的button陣列元素，依序排列(每排4個)
+                        color: Colors.orange,
+                        textColor: Colors.white,
+                      );
+                    }
+                    else
+                    {
                       return MyButton(
                         buttonTapped: () {
                           setState(() {
@@ -196,6 +290,7 @@ class _MyHomePageState extends State<HomePage> {
 
     if (userAnswer == 'Infinity' || userAnswer == 'NaN') {
       userAnswer = 'Error';
+      userInput = '';
     }
 
     if (userAnswer != 'Error') {
@@ -205,120 +300,65 @@ class _MyHomePageState extends State<HomePage> {
 
         var TempuserAnswer = (double.parse(userAnswer) / 1000000000).toStringAsFixed(8);
 
-        if (TempuserAnswer.substring(TempuserAnswer.length - 1, TempuserAnswer.length) ==
-            '0') //處理後，如果小數點後第八位是0
+        if (TempuserAnswer.substring(TempuserAnswer.length - 1, TempuserAnswer.length) == '0') //處理後，如果小數點後第八位是0
             {
-          if (TempuserAnswer.substring(
-              TempuserAnswer.length - 2, TempuserAnswer.length - 1) ==
-              '0') //處理後，如果小數點後第七位是0
+          if (TempuserAnswer.substring(TempuserAnswer.length - 2, TempuserAnswer.length - 1) == '0') //處理後，如果小數點後第七位是0
               {
-            if (TempuserAnswer.substring(
-                TempuserAnswer.length - 3, TempuserAnswer.length - 2) ==
-                '0') //處理後，如果小數點後第六位是0
+            if (TempuserAnswer.substring(TempuserAnswer.length - 3, TempuserAnswer.length - 2) == '0') //處理後，如果小數點後第六位是0
                 {
-              if (TempuserAnswer.substring(
-                  TempuserAnswer.length - 4, TempuserAnswer.length - 3) ==
-                  '0') //處理後，如果小數點後第五位是0
+              if (TempuserAnswer.substring(TempuserAnswer.length - 4, TempuserAnswer.length - 3) == '0') //處理後，如果小數點後第五位是0
                   {
-                if (TempuserAnswer.substring(
-                    TempuserAnswer.length - 5, TempuserAnswer.length - 4) ==
-                    '0') //處理後，如果小數點後第四位是0
+                if (TempuserAnswer.substring(TempuserAnswer.length - 5, TempuserAnswer.length - 4) == '0') //處理後，如果小數點後第四位是0
                     {
-                  if (TempuserAnswer.substring(
-                      TempuserAnswer.length - 6, TempuserAnswer.length - 5) ==
-                      '0') //處理後，如果小數點後第三位是0
+                  if (TempuserAnswer.substring(TempuserAnswer.length - 6, TempuserAnswer.length - 5) == '0') //處理後，如果小數點後第三位是0
                       {
-                    if (TempuserAnswer.substring(
-                        TempuserAnswer.length - 7, TempuserAnswer.length - 6) ==
-                        '0') //處理後，如果小數點後第二位是0
+                    if (TempuserAnswer.substring(TempuserAnswer.length - 7, TempuserAnswer.length - 6) == '0') //處理後，如果小數點後第二位是0
                         {
-                      if (TempuserAnswer.substring(
-                          TempuserAnswer.length - 8, TempuserAnswer.length - 7) ==
-                          '0') //處理後，如果小數點後第一位是0
+                      if (TempuserAnswer.substring(TempuserAnswer.length - 8, TempuserAnswer.length - 7) == '0') //處理後，如果小數點後第一位是0
                           {
                         userAnswer = double.parse(TempuserAnswer).toStringAsFixed(0) + 'e9';
-                      } else {
-                        userAnswer = double.parse(TempuserAnswer).toStringAsFixed(1) + 'e9';
-                      }
-                    } else {
-                      userAnswer = double.parse(TempuserAnswer).toStringAsFixed(2) + 'e9';
-                    }
-                  } else {
-                    userAnswer = double.parse(TempuserAnswer).toStringAsFixed(3) + 'e9';
-                  }
-                } else {
-                  userAnswer = double.parse(TempuserAnswer).toStringAsFixed(4) + 'e9';
-                }
-              } else {
-                userAnswer = double.parse(TempuserAnswer).toStringAsFixed(5) + 'e9';
-              }
-            } else {
-              userAnswer = double.parse(TempuserAnswer).toStringAsFixed(6) + 'e9';
-            }
-          } else {
-            userAnswer = double.parse(TempuserAnswer).toStringAsFixed(7) + 'e9';
-          }
+                      } else {userAnswer = double.parse(TempuserAnswer).toStringAsFixed(1) + 'e9';}
+                    } else {userAnswer = double.parse(TempuserAnswer).toStringAsFixed(2) + 'e9';}
+                  } else {userAnswer = double.parse(TempuserAnswer).toStringAsFixed(3) + 'e9';}
+                } else {userAnswer = double.parse(TempuserAnswer).toStringAsFixed(4) + 'e9';}
+              } else {userAnswer = double.parse(TempuserAnswer).toStringAsFixed(5) + 'e9';}
+            } else {userAnswer = double.parse(TempuserAnswer).toStringAsFixed(6) + 'e9';}
+          } else {userAnswer = double.parse(TempuserAnswer).toStringAsFixed(7) + 'e9';}
         }
       }
       else
       {
-        if (userAnswer.substring(userAnswer.length - 1, userAnswer.length) ==
-            '0') //處理後，如果小數點後第八位是0
+        if (userAnswer.substring(userAnswer.length - 1, userAnswer.length) == '0') //處理後，如果小數點後第八位是0
             {
-          if (userAnswer.substring(
-              userAnswer.length - 2, userAnswer.length - 1) ==
-              '0') //處理後，如果小數點後第七位是0
+          if (userAnswer.substring(userAnswer.length - 2, userAnswer.length - 1) == '0') //處理後，如果小數點後第七位是0
               {
-            if (userAnswer.substring(
-                userAnswer.length - 3, userAnswer.length - 2) ==
-                '0') //處理後，如果小數點後第六位是0
+            if (userAnswer.substring(userAnswer.length - 3, userAnswer.length - 2) == '0') //處理後，如果小數點後第六位是0
                 {
-              if (userAnswer.substring(
-                  userAnswer.length - 4, userAnswer.length - 3) ==
-                  '0') //處理後，如果小數點後第五位是0
+              if (userAnswer.substring(userAnswer.length - 4, userAnswer.length - 3) == '0') //處理後，如果小數點後第五位是0
                   {
-                if (userAnswer.substring(
-                    userAnswer.length - 5, userAnswer.length - 4) ==
-                    '0') //處理後，如果小數點後第四位是0
+                if (userAnswer.substring(userAnswer.length - 5, userAnswer.length - 4) == '0') //處理後，如果小數點後第四位是0
                     {
-                  if (userAnswer.substring(
-                      userAnswer.length - 6, userAnswer.length - 5) ==
-                      '0') //處理後，如果小數點後第三位是0
+                  if (userAnswer.substring(userAnswer.length - 6, userAnswer.length - 5) == '0') //處理後，如果小數點後第三位是0
                       {
-                    if (userAnswer.substring(
-                        userAnswer.length - 7, userAnswer.length - 6) ==
-                        '0') //處理後，如果小數點後第二位是0
+                    if (userAnswer.substring(userAnswer.length - 7, userAnswer.length - 6) == '0') //處理後，如果小數點後第二位是0
                         {
-                      if (userAnswer.substring(
-                          userAnswer.length - 8, userAnswer.length - 7) ==
-                          '0') //處理後，如果小數點後第一位是0
+                      if (userAnswer.substring(userAnswer.length - 8, userAnswer.length - 7) == '0') //處理後，如果小數點後第一位是0
                           {
                         userAnswer = eval.toStringAsFixed(0);
-                      } else {
-                        userAnswer = eval.toStringAsFixed(1);
-                      }
-                    } else {
-                      userAnswer = eval.toStringAsFixed(2);
-                    }
-                  } else {
-                    userAnswer = eval.toStringAsFixed(3);
-                  }
-                } else {
-                  userAnswer = eval.toStringAsFixed(4);
-                }
-              } else {
-                userAnswer = eval.toStringAsFixed(5);
-              }
-            } else {
-              userAnswer = eval.toStringAsFixed(6);
-            }
-          } else {
-            userAnswer = eval.toStringAsFixed(7);
-          }
+                      } else {userAnswer = eval.toStringAsFixed(1);}
+                    } else {userAnswer = eval.toStringAsFixed(2);}
+                  } else {userAnswer = eval.toStringAsFixed(3);}
+                } else {userAnswer = eval.toStringAsFixed(4);}
+              } else {userAnswer = eval.toStringAsFixed(5);}
+            } else {userAnswer = eval.toStringAsFixed(6);}
+          } else {userAnswer = eval.toStringAsFixed(7);}
         }
       }
+
+      userInput = '';
+      Isafterequal++;
+      Isafternumber = userAnswer;
     }
 
-    userInput = '';
   }
 }
