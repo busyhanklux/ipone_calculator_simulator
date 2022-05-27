@@ -163,15 +163,65 @@ class _MyHomePageState extends State<HomePage> {
                       return MyButton(
                         buttonTapped: () {
                           setState(() {
-                            if(Isafterequal == 1)
-                              {
+                            if(Isafterequal == 1) {
                                 userInput = Isafternumber + buttons[index];
                                 Isafterequal = 0;
                                 Isafternumber = '';
                               }
                             else
                             {
-                              userInput += buttons[index];
+                              if(userInput.isNotEmpty){ //是不是空的
+                                if(userInput.length >= 2) {
+                                  if(userInput.substring((userInput.length - 2),userInput.length) == '+-'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '++'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '+x'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '+/'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '-+'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '--'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '-x'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '-/'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == 'x+'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == 'x-'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == 'xx'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == 'x/'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '/+'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '/-'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '/x'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '//'
+                                  )
+                                  {
+                                    userInput = userInput.substring(0,userInput.length - 2) + buttons[index];
+                                  }
+                                  else if(userInput.substring((userInput.length - 1),userInput.length) == '+'
+                                      || userInput.substring((userInput.length - 1),userInput.length) == '-'
+                                      || userInput.substring((userInput.length - 1),userInput.length) == 'x'
+                                      || userInput.substring((userInput.length - 1),userInput.length) == '/'
+                                  )
+                                  {
+                                    userInput = userInput.substring(0,userInput.length - 1) + buttons[index];
+                                  }
+                                  else
+                                  {
+                                    userInput += buttons[index];
+                                  }
+                                }
+                                else if(userInput.substring((userInput.length - 1),userInput.length) == '+'
+                                    || userInput.substring((userInput.length - 1),userInput.length) == '-'
+                                    || userInput.substring((userInput.length - 1),userInput.length) == 'x'
+                                    || userInput.substring((userInput.length - 1),userInput.length) == '/'
+                                )
+                                {
+                                  userInput = userInput.substring(0,userInput.length - 1) + buttons[index];
+                                }
+                                else
+                                {
+                                  userInput += buttons[index];
+                                }
+                              }
+                              else //空的話就 0 + 數字
+                              {
+                                userInput = '0' + buttons[index];
+                              }
                             }
                           });
                         },
@@ -193,7 +243,49 @@ class _MyHomePageState extends State<HomePage> {
                             }
                             else
                             {
-                              userInput += buttons[index];
+                              if(userInput.isNotEmpty) {
+                                  if(userInput.length >= 2) {
+                                    if(userInput.substring((userInput.length - 2),userInput.length) == '+-'
+                                        || userInput.substring((userInput.length - 2),userInput.length) == '++'
+                                        || userInput.substring((userInput.length - 2),userInput.length) == '+x'
+                                        || userInput.substring((userInput.length - 2),userInput.length) == '+/'
+                                        || userInput.substring((userInput.length - 2),userInput.length) == '-+'
+                                        || userInput.substring((userInput.length - 2),userInput.length) == '--'
+                                        || userInput.substring((userInput.length - 2),userInput.length) == '-x'
+                                        || userInput.substring((userInput.length - 2),userInput.length) == '-/'
+                                        || userInput.substring((userInput.length - 2),userInput.length) == 'x+'
+                                        || userInput.substring((userInput.length - 2),userInput.length) == 'x-'
+                                        || userInput.substring((userInput.length - 2),userInput.length) == 'xx'
+                                        || userInput.substring((userInput.length - 2),userInput.length) == 'x/'
+                                        || userInput.substring((userInput.length - 2),userInput.length) == '/+'
+                                        || userInput.substring((userInput.length - 2),userInput.length) == '/-'
+                                        || userInput.substring((userInput.length - 2),userInput.length) == '/x'
+                                        || userInput.substring((userInput.length - 2),userInput.length) == '//'
+                                    )
+                                      {
+                                        userInput = userInput;
+                                      }
+                                  else
+                                  {
+                                    userInput += buttons[index];
+                                  }
+                                  }
+                                  else if(userInput.substring((userInput.length - 1),userInput.length) == '+'
+                                      || userInput.substring((userInput.length - 1),userInput.length) == 'x'
+                                      || userInput.substring((userInput.length - 1),userInput.length) == '/'
+                                  )
+                                  {
+                                    userInput = userInput.substring(0,userInput.length - 1) + buttons[index];
+                                  }
+                                  else
+                                  {
+                                    userInput += buttons[index];
+                                  }
+                                }
+                              else //空的話就 0 - 數字
+                                {
+                                  userInput = '0' + buttons[index];
+                                }
                             }
                           });
                         },
@@ -215,7 +307,58 @@ class _MyHomePageState extends State<HomePage> {
                             }
                             else
                             {
-                              userInput += buttons[index];
+                              if(userInput.isNotEmpty){ //是不是空的
+                                if(userInput.length >= 2) {
+                                  if(userInput.substring((userInput.length - 2),userInput.length) == '+-'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '++'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '+x'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '+/'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '-+'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '--'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '-x'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '-/'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == 'x+'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == 'x-'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == 'xx'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == 'x/'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '/+'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '/-'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '/x'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '//'
+                                  )
+                                  {
+                                    userInput = userInput.substring(0,userInput.length - 2) + buttons[index];
+                                  }
+                                  else if(userInput.substring((userInput.length - 1),userInput.length) == '+'
+                                      || userInput.substring((userInput.length - 1),userInput.length) == '-'
+                                      || userInput.substring((userInput.length - 1),userInput.length) == 'x'
+                                      || userInput.substring((userInput.length - 1),userInput.length) == '/'
+                                  )
+                                  {
+                                    userInput = userInput.substring(0,userInput.length - 1) + buttons[index];
+                                  }
+                                  else
+                                  {
+                                    userInput += buttons[index];
+                                  }
+                                }
+                                else if(userInput.substring((userInput.length - 1),userInput.length) == '+'
+                                    || userInput.substring((userInput.length - 1),userInput.length) == '-'
+                                    || userInput.substring((userInput.length - 1),userInput.length) == 'x'
+                                    || userInput.substring((userInput.length - 1),userInput.length) == '/'
+                                )
+                                {
+                                  userInput = userInput.substring(0,userInput.length - 1) + buttons[index];
+                                }
+                                else
+                                {
+                                  userInput += buttons[index];
+                                }
+                              }
+                              else //空的話就 0 x 數字
+                              {
+                                userInput = '0' + buttons[index];
+                              }
                             }
                           });
                         },
@@ -237,7 +380,58 @@ class _MyHomePageState extends State<HomePage> {
                             }
                             else
                             {
-                              userInput += buttons[index];
+                              if(userInput.isNotEmpty){ //是不是空的
+                                if(userInput.length >= 2) {
+                                  if(userInput.substring((userInput.length - 2),userInput.length) == '+-'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '++'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '+x'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '+/'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '-+'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '--'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '-x'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '-/'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == 'x+'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == 'x-'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == 'xx'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == 'x/'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '/+'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '/-'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '/x'
+                                      || userInput.substring((userInput.length - 2),userInput.length) == '//'
+                                  )
+                                  {
+                                    userInput = userInput.substring(0,userInput.length - 2) + buttons[index];
+                                  }
+                                  else if(userInput.substring((userInput.length - 1),userInput.length) == '+'
+                                      || userInput.substring((userInput.length - 1),userInput.length) == '-'
+                                      || userInput.substring((userInput.length - 1),userInput.length) == 'x'
+                                      || userInput.substring((userInput.length - 1),userInput.length) == '/'
+                                  )
+                                  {
+                                    userInput = userInput.substring(0,userInput.length - 1) + buttons[index];
+                                  }
+                                  else
+                                  {
+                                    userInput += buttons[index];
+                                  }
+                                }
+                                if(userInput.substring((userInput.length - 1),userInput.length) == '+'
+                                    || userInput.substring((userInput.length - 1),userInput.length) == '-'
+                                    || userInput.substring((userInput.length - 1),userInput.length) == 'x'
+                                    || userInput.substring((userInput.length - 1),userInput.length) == '/'
+                                )
+                                {
+                                  userInput = userInput.substring(0,userInput.length - 1) + buttons[index];
+                                }
+                                else
+                                {
+                                  userInput += buttons[index];
+                                }
+                              }
+                              else //空的話就 0 / 數字
+                              {
+                                userInput = '0' + buttons[index];
+                              }
                             }
                           });
                         },
@@ -251,6 +445,8 @@ class _MyHomePageState extends State<HomePage> {
                       return MyButton(
                         buttonTapped: () {
                           setState(() {
+                            Isafterequal = 0;
+                            Isafternumber = '';
                             userInput += buttons[index];
                           });
                         },
