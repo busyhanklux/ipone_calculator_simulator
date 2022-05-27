@@ -13,17 +13,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       builder: (context, child) => ResponsiveWrapper.builder(child,
-          maxWidth: 480,
+          maxWidth: 1800,
           minWidth: 165,
           defaultName: MOBILE,
           defaultScale: true,
           breakpoints: [
-            ResponsiveBreakpoint.resize(360), //解決
+            ResponsiveBreakpoint.resize(360),
             ResponsiveBreakpoint.resize(600, name: MOBILE),
             ResponsiveBreakpoint.autoScale(120, name: TABLET),
-            ResponsiveBreakpoint.autoScale(120, name: DESKTOP),
+            ResponsiveBreakpoint.resize(1200, name: DESKTOP),
           ],
-          background: Container(color: Color(0xFFF5F5F5))),
+          background: Container(color: Color(0xFF000000))),
       initialRoute: "/",
       debugShowCheckedModeBanner: false,
       home: HomePage(title: '仿 iphone 計算機'),
